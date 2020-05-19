@@ -27,7 +27,7 @@ export default new Router({
                 {
                     path: '/table',
                     component: () => import(/* webpackChunkName: "table" */ '../components/user/patient/PatientReservation.vue'),
-                    meta: { title: '学员预约记录' }
+                    meta: { title: '用户预约记录' }
                 },
                 {
                     path: '/tabs',
@@ -125,7 +125,7 @@ export default new Router({
                 {
                     path: '/patientEvaluation',
                     component: () => import(/* webpackChunkName: "register" */ '../components/user/patient/PatientEvaluation.vue'),
-                    meta: { title: '学员评论' }
+                    meta: { title: '病人评价' }
                 },
                 //教练模块
                 {
@@ -139,9 +139,9 @@ export default new Router({
                     meta: { title: '系统首页' }
                 },
                 {
-                    path: '/myStudent',
-                    component: () => import(/* webpackChunkName: "register" */ '../components/user/doctor/MyStudent.vue'),
-                    meta: { title: '学员信息' }
+                    path: '/patientInfo',
+                    component: () => import(/* webpackChunkName: "register" */ '../components/user/doctor/PatientInfo.vue'),
+                    meta: { title: '病人信息' }
                 },
                 {
                     path: '/myReservation',

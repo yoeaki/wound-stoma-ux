@@ -80,14 +80,6 @@ export default {
                         {
                             index: 'allDoctor',
                             title: '医生信息'
-                        },
-                        {
-                            index: 'audit',
-                            title: '教练注册审核中心'
-                        },
-                        {
-                            index: 'coachReservation',
-                            title: '教学安排'
                         }
                     ]
                 },

@@ -57,17 +57,12 @@ export default {
             collapse: false,
             items: [
                 {
-                    icon: 'el-icon-lx-home',
-                    index: 'coachDashboard',
-                    title: '系统首页'
-                },
-                {
                     icon: 'el-icon-lx-calendar',
                     index: '3',
                     title: '病人管理',
                     subs: [
                         {
-                            index: 'myStudent',
+                            index: 'patientInfo',
                             title: '病人信息'
                         },
                         {
