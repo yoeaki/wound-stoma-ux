@@ -62,10 +62,6 @@ export default {
                     title: '病人管理',
                     subs: [
                         {
-                            index: 'patientInfo',
-                            title: '病人信息'
-                        },
-                        {
                             index: 'myReservation',
                             title: '预约列表'
                         }
@@ -76,10 +72,6 @@ export default {
                     index: '4',
                     title: '会诊管理',
                     subs: [
-                        {
-                            index: 'myStudent',
-                            title: '病例列表'
-                        },
                         {
                             index: 'immediately',
                             title: '即刻会诊'

@@ -1,24 +1,7 @@
 <template>
     <div>
-        <div class="crumbs">
-            <el-breadcrumb separator="/">
-                <el-breadcrumb-item>
-                    <i class="el-icon-lx-cascades"></i> 我的学员
-                </el-breadcrumb-item>
-            </el-breadcrumb>
-        </div>
         <div class="container">
             <div class="handle-box">
-                <el-button
-                        type="primary"
-                        icon="el-icon-delete"
-                        class="handle-del mr10"
-                        @click="delAllSelection"
-                >批量删除</el-button>
-                <el-select v-model="query.address" placeholder="地址" class="handle-select mr10">
-                    <el-option key="1" label="广东省" value="广东省"></el-option>
-                    <el-option key="2" label="湖南省" value="湖南省"></el-option>
-                </el-select>
                 <el-input v-model="query.name" placeholder="用户名" class="handle-input mr10"></el-input>
                 <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
             </div>
@@ -28,76 +11,19 @@
                     class="table"
                     ref="multipleTable"
                     header-cell-class-name="table-header"
+
                     @selection-change="handleSelectionChange"
             >
-                <el-table-column prop="username" label="学员名称"></el-table-column>
+                <el-table-column type="selection" width="55" align="center"></el-table-column>
+                <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
+                <el-table-column prop="username" label="用户名"></el-table-column>
+                <el-table-column prop="realName" label="医生真实姓名"></el-table-column>
                 <el-table-column prop="sex" label="性别"></el-table-column>
-                <el-table-column prop="phone" label="电话"></el-table-column>
-                <el-table-column prop="email" label="邮箱"></el-table-column>
+                <el-table-column prop="age" label="年龄"></el-table-column>
+                <el-table-column prop="phone" label="电话号码"></el-table-column>
                 <el-table-column prop="address" label="地址"></el-table-column>
             </el-table>
-            <div class="pagination">
-                <el-pagination
-                        background
-                        layout="total, prev, pager, next"
-                        :current-page="query.pageIndex"
-                        :page-size="query.pageSize"
-                        :total="pageTotal"
-                        @current-change="handlePageChange"
-                ></el-pagination>
-            </div>
         </div>
-
-        <!-- 编辑弹出框 -->
-        <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
-            <el-form ref="form" :model="form" label-width="70px">
-                <el-form-item label="开始时间">
-                    <el-col :span="11">
-                        <el-date-picker
-                                type="date"
-                                placeholder="选择日期"
-                                v-model="form.startTime"
-                                value-format="yyyy-MM-dd"
-                                style="width: 100%;"
-                        ></el-date-picker>
-                    </el-col>
-                    <el-col class="line" :span="2">-</el-col>
-                    <el-col :span="11">
-                        <el-time-picker
-                                placeholder="选择时间"
-                                v-model="form.startTime"
-                                style="width: 100%;"
-                        ></el-time-picker>
-                    </el-col>
-                </el-form-item>
-                <el-form-item label="结束时间">
-                    <el-col :span="11">
-                        <el-date-picker
-                                type="date"
-                                placeholder="选择日期"
-                                v-model="form.endTime"
-                                value-format="yyyy-MM-dd"
-                                style="width: 100%;"
-                        ></el-date-picker>
-                    </el-col>
-                    <el-col class="line" :span="2">-</el-col>
-                    <el-col :span="11">
-                        <el-time-picker
-                                placeholder="选择时间"
-                                v-model="form.endTime"
-                                style="width: 100%;"
-                        ></el-time-picker>
-                    </el-col>
-                </el-form-item>
-                <el-form-item label="预约备注">
-                    <el-input type="textarea" rows="5" v-model="form.remarks"></el-input>
-                </el-form-item>
-            </el-form>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="editVisible = false">取 消</el-button>
-                <el-button type="primary" @click="saveEdit">确 定</el-button>
-            </span>
-        </el-dialog>
     </div>
 </template>
 
@@ -132,7 +58,7 @@
         methods: {
             // 获取 easy-mock 的模拟数据
             list() {
-                let path = '/api/patient/patient/list';
+                let path = '/api/pat/patient/list';
                 let _this = this;
                 console.log(path)
                 axios.get(path).then(function(res) {

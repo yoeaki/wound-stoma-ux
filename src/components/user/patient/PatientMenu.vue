@@ -68,10 +68,6 @@ export default {
                         {
                             index: 'table',
                             title: '预约记录'
-                        },
-                        {
-                            index: 'process',
-                            title: '预约流程'
                         }
                     ]
                 },

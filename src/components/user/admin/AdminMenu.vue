@@ -78,7 +78,7 @@ export default {
                     title: '医生中心',
                     subs: [
                         {
-                            index: 'allDoctor',
+                            index: '/allDoctor',
                             title: '医生信息'
                         }
                     ]

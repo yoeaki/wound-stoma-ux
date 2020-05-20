@@ -71,7 +71,7 @@ export default {
                             localStorage.setItem("ms_username",_this.param.username)
                             localStorage.setItem("ms_id",data.data.id)
                             localStorage.setItem("ms_role",data.data.role)
-                            _this.$router.push('/patientInfo')
+                            _this.$router.push('/doctorInfo')
                         } else if (response.data.status === 1) {
                             _this.$message.error(data.msg);
                             console.log(data.msg);

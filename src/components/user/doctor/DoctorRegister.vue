@@ -49,11 +49,11 @@ export default {
             const _this = this;
             this.$refs.login.validate(valid => {
                 if (valid) {
-                    axiso.post('api/doctor/doctor/register',this.param).then(function (response) {
+                    axiso.post('api/doc/doctor/register',this.param).then(function (response) {
                         const data = response.data;
                         if (data.status === 0) {
                             _this.$message.success(data.msg)
-                            _this.$router.push('/coachLogin')
+                            _this.$router.push('/doctorLogin')
                         } else if (response.data.status === 1) {
                             _this.$message.error(data.msg);
                             console.log(data.msg);
@@ -69,7 +69,7 @@ export default {
         },
         toLogin() {
             let path = this.$route.path;
-            let toLogin = '/StudentLogin';
+            let toLogin = '/doctorLogin';
             if (path !== toLogin) {
                 this.$router.push(toLogin)
             }

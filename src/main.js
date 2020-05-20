@@ -25,9 +25,18 @@ const i18n = new VueI18n({
 //使用钩子函数对路由进行权限跳转
 router.beforeEach((to, from, next) => {
     document.title = `${to.meta.title} | vue-manage-system`;
-    const role = localStorage.getItem('ms_username');
+    const role = localStorage.getItem('ms_role');
     let path = to.path;
     if (!role && path !== '/studentLogin') {
+        if (path == '/'){
+            if (role==0){
+                next('/form')
+            }else if(role == 1){
+                next('/doctorInfo')
+            }else if(role == 2){
+                next('adminDashboard')
+            }
+        }
         //配置可跳转路由
         if (path === '/patientLogin' || path === '/patientRegister' ||
             path === '/doctorLogin' || path === '/doctorRegister' ||

@@ -1,27 +1,9 @@
 <template>
     <div>
-        <div class="crumbs">
-            <el-breadcrumb separator="/">
-                <el-breadcrumb-item>
-                    <i class="el-icon-lx-cascades"></i> 我的学员
-                </el-breadcrumb-item>
-            </el-breadcrumb>
-        </div>
         <div class="container">
             <div class="handle-box">
-                <el-button
-                    type="primary"
-                    icon="el-icon-delete"
-                    class="handle-del mr10"
-                    @click="delAllSelection"
-                >批量删除</el-button>
-                <el-select v-model="query.address" placeholder="地址" class="handle-select mr10">
-                    <el-option key="1" label="广东省" value="广东省"></el-option>
-                    <el-option key="2" label="湖南省" value="湖南省"></el-option>
-                </el-select>
                 <el-input v-model="query.name" placeholder="用户名" class="handle-input mr10"></el-input>
                 <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
-                <el-button type="primary" icon="el-icon-plus" @click="openAdd">新增教练</el-button>
             </div>
             <el-table
                 :data="tableData"
@@ -29,46 +11,19 @@
                 class="table"
                 ref="multipleTable"
                 header-cell-class-name="table-header"
+
                 @selection-change="handleSelectionChange"
             >
-                <el-table-column prop="username" label="学员名称"></el-table-column>
+                <el-table-column type="selection" width="55" align="center"></el-table-column>
+                <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
+                <el-table-column prop="username" label="用户名"></el-table-column>
+                <el-table-column prop="realName" label="医生真实姓名"></el-table-column>
                 <el-table-column prop="sex" label="性别"></el-table-column>
-                <el-table-column prop="phone" label="电话"></el-table-column>
-                <el-table-column prop="email" label="邮箱"></el-table-column>
+                <el-table-column prop="age" label="年龄"></el-table-column>
+                <el-table-column prop="phone" label="电话号码"></el-table-column>
                 <el-table-column prop="address" label="地址"></el-table-column>
             </el-table>
-            <div class="pagination">
-                <el-pagination
-                    background
-                    layout="total, prev, pager, next"
-                    :current-page="query.pageIndex"
-                    :page-size="query.pageSize"
-                    :total="pageTotal"
-                    @current-change="handlePageChange"
-                ></el-pagination>
             </div>
-        </div>
-
-        <!-- 编辑弹出框 -->
-        <el-<!-- 编辑弹出框 -->
-        <el-dialog title="新增教练" :visible.sync="editVisible" width="30%">
-            <el-form ref="form" :model="form" label-width="70px">
-                <el-form-item label="教练名称">
-                    <el-input v-model="coach.username"></el-input>
-                </el-form-item>
-                <el-form-item label="登录密码">
-                    <el-input v-model="coach.password"></el-input>
-                </el-form-item>
-                <el-form-item label="车辆名称">
-                    <el-input v-model="car.name"></el-input>
-                </el-form-item>
-                <el-form-item label="车牌号">
-                    <el-input v-model="car.number"></el-input>
-                </el-form-item>
-            </el-form>
-            <el-button @click="editVisible = false">取 消</el-button>
-            <el-button type="primary" @click="addCoach">确 定</el-button>
-        </el-dialog>
     </div>
 </template>
 
@@ -77,7 +32,7 @@ import { fetchData } from '../../../api';
 import axios from 'axios';
 
 export default {
-    name: 'basetable',
+    name: 'AllDoctor',
     data() {
         return {
             query: {
@@ -86,33 +41,21 @@ export default {
                 pageIndex: 1,
                 pageSize: 10
             },
-            car:{
-                name:'',
-                number:'',
-                coachId:''
-            },
-            coach:{
-                username:'',
-                password:'123456',
-            },
+            dialogCaseEdit:false,
             tableData: [],
-            multipleSelection: [],
-            delList: [],
             editVisible: false,
-            pageTotal: 0,
-            form: {},
-            idx: -1,
-            id: -1
+            doctorId_equal:'',
+
         };
     },
     created() {
         // this.getData();
         this.list();
+        this.doctorId_equal = localStorage.getItem('ms_id')
     },
     methods: {
-        // 获取 easy-mock 的模拟数据
         list() {
-            let path = '/api/doctor/doctor/list';
+            let path = '/api/doc/doctor/list';
             let _this = this;
             console.log(path)
             axios.get(path).then(function(res) {
@@ -122,32 +65,23 @@ export default {
                 console.log(error)
             })
         },
-        openAdd(){
-            this.editVisible = true;
-        },
-        addCoach(){
-            let _this = this;
-            _this.editVisible = false;
-            axios.post('/api/doctor/doctor',_this.coach).then(function(res) {
-                _this.load();
-                axios.post('/api/doctor/car',_this.car).then(function(res) {
-                    _this.$message.success("新增成功")
-                    _this.list()
-                });
-            });
-        },
-        load(){
-            let _this = this;
-            axios.get('/api/doctor/doctor/load',_this.coach.username).then(function(res) {
-                let data = res.data.data;
-                console.log(data)
-                _this.car.coachId = data.id;
-            });
-        },
-        // 触发搜索按钮
+        // 获取 easy-mock 的模拟数据
         handleSearch() {
             this.$set(this.query, 'pageIndex', 1);
             this.getData();
+        },
+        // 删除操作
+        handleDelete(id, index, row) {
+            let _this = this
+            // 二次确认删除
+            this.$confirm('确定要删除吗？', '提示', {
+                type: 'warning'
+            }).then(() => {
+                axios.delete('/api/pat/reservation/' + id).then(function(data) {
+                    _this.$message.success("删除成功");
+                    _this.tableData.splice(index, 1);
+                })
+            }).catch(() => {});
         },
         // 多选操作
         handleSelectionChange(val) {
